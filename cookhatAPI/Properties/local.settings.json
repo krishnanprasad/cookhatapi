@@ -1,0 +1,5 @@
+{
+  "Values": {
+    "SqlConnectionString": "Server=WLB22GHD\\SQLSERVER;Database=foodsocial;UserId=sa;Password=Thought@1234;"
+  }
+}
