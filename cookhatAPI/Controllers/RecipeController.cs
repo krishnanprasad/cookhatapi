@@ -47,12 +47,37 @@ namespace cookhatAPI.Controllers
         [HttpPost]
         [Route("AddRecipe")]
 
-        public async Task<ActionResult<bool>> AddRecipe([FromBody] AddRecipe recipe)
+        public ActionResult<bool> AddRecipe([FromBody] AddRecipe recipe)
         {
-           // var body = await new StreamReader(req.Body).ReadToEndAsync();
             AddRecipe request = recipe;
-            bool _recipe = _recipeRepo.AddRecipe(request);
-            return new OkObjectResult(_recipe);
+            bool IsAddRecipeSuccess = _recipeRepo.AddRecipe(request);
+            return new OkObjectResult(IsAddRecipeSuccess);
+        }
+        [HttpGet]
+        [Route("GetRecipeList")]
+
+        public ActionResult<RecipeChef> GetRecipeList(string? inf_id)
+        {
+            string infid= inf_id;
+            if(infid==null)
+            {
+                infid = "";
+            }
+            List<RecipeChef> _recipeList = _recipeRepo.GetRecipeList(infid);
+            return new OkObjectResult(_recipeList);
+        }
+        [HttpGet]
+        [Route("GetSearchRecipeList")]
+
+        public ActionResult<RecipeChef> GetRecipeSearchList(string? searchRecipe)
+        {
+            string o_searchrecipe = searchRecipe;
+            if (o_searchrecipe == null)
+            {
+                o_searchrecipe = "";
+            }
+            List<RecipeDetail> _recipeList = _recipeRepo.GetRecipeSearchList(o_searchrecipe);
+            return new OkObjectResult(_recipeList);
         }
     }
 }

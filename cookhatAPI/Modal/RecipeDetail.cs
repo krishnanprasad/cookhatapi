@@ -21,4 +21,8 @@ namespace cookhatAPI.Modal
         public string chefimgurl { get; set; }
         public DateTimeOffset? recipecreateddate { get; set; }
     }
+    public class RecipeChef : RecipeDetail
+    {
+        public int totalfollowers { get; set; }
+    }
 }

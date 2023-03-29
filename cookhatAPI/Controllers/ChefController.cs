@@ -35,5 +35,18 @@ namespace cookhatAPI.Controllers
             ChefDetail _recipe = _chefRepo.GetChefDetail(chefid);
             return new OkObjectResult(_recipe);
         }
+        [HttpGet]
+        [Route("GetChefList")]
+
+        public ActionResult<List<ChefDetail>> GetRecipeList(string chefid)
+        {
+            string infid = chefid;
+            if (infid == null)
+            {
+                infid = "";
+            }
+            List<ChefDetail> _recipe = _chefRepo.GetChefList(infid);
+            return new OkObjectResult(_recipe);
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace cookhatAPI
                 builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
             }));
             services.AddTransient<IChef, ChefDAL>();
+            services.AddTransient<IIngredient, IngredientDAL>();
             services.AddControllers().AddNewtonsoftJson();
         }
 

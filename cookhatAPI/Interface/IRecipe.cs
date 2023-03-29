@@ -10,5 +10,7 @@ namespace cookhatAPI.Interface
     {
         RecipeDetail GetRecipeDetail(string recipeID);
         bool AddRecipe(AddRecipe recipe);
+        List<RecipeChef> GetRecipeList(string? infid);
+        List<RecipeDetail> GetRecipeSearchList(string? searchRecipe);
     }
 }

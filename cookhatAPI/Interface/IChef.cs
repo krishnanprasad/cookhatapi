@@ -10,5 +10,6 @@ namespace cookhatAPI.Interface
     {
         bool CreateChef(Credentials chefcredentials);
         ChefDetail GetChefDetail(string chefid);
+        List<ChefDetail> GetChefList(string chefid);
     }
 }
