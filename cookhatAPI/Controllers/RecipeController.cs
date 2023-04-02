@@ -33,15 +33,15 @@ namespace cookhatAPI.Controllers
         //}
         public RecipeController(IRecipe recipeRepo)
         {
-            _recipeRepo = recipeRepo;            
+            _recipeRepo = recipeRepo;
         }
         [HttpGet]
         [Route("GetRecipeDetail")]
-        
-        public ActionResult<RecipeDetail> GetRecipeDetail (string id)
+
+        public ActionResult<RecipeDetail> GetRecipeDetail(string id)
         {
             string recipeid = id;
-            RecipeDetail _recipe = _recipeRepo.GetRecipeDetail(id);            
+            RecipeDetail _recipe = _recipeRepo.GetRecipeDetail(id);
             return new OkObjectResult(_recipe);
         }
         [HttpPost]
@@ -58,25 +58,67 @@ namespace cookhatAPI.Controllers
 
         public ActionResult<RecipeChef> GetRecipeList(string? inf_id)
         {
-            string infid= inf_id;
-            if(infid==null)
+            string infid = inf_id;
+            if (infid == null || infid=="")
             {
-                infid = "";
+                infid =null;
             }
             List<RecipeChef> _recipeList = _recipeRepo.GetRecipeList(infid);
             return new OkObjectResult(_recipeList);
         }
-        [HttpGet]
+        [HttpPost]
         [Route("GetSearchRecipeList")]
 
-        public ActionResult<RecipeChef> GetRecipeSearchList(string? searchRecipe)
+        public ActionResult<RecipeChef> GetRecipeSearchList([FromBody] RecipeFilter searchRecipe)
         {
-            string o_searchrecipe = searchRecipe;
-            if (o_searchrecipe == null)
+            RecipeFilter o_searchrecipe = searchRecipe;
+
+            string o_ingredients = "";
+            string o_category = "";
+            string o_recipesearch = "";
+            if (o_searchrecipe.ingredients.Count > 0)
             {
-                o_searchrecipe = "";
+                o_searchrecipe.ingredients = o_searchrecipe.ingredients.Distinct().ToList();
+                foreach (var single_ingredient in o_searchrecipe.ingredients)
+                {
+                    o_ingredients = o_ingredients+single_ingredient + ",";
+                }
             }
-            List<RecipeDetail> _recipeList = _recipeRepo.GetRecipeSearchList(o_searchrecipe);
+            if (o_searchrecipe.category.Count > 0)
+            {
+                o_searchrecipe.category = o_searchrecipe.category.Distinct().ToList();
+                foreach (Category cat in o_searchrecipe.category)
+                {
+                    foreach (var singlecategory in cat.items)
+                    {
+                        o_category = o_category+singlecategory.name + ",";
+                    }
+
+                }
+            }
+            if (o_searchrecipe.text.Length == 0)
+            {
+                o_recipesearch = null;
+            }
+            if (o_searchrecipe.ingredients.Count > 0)
+            {
+
+                o_ingredients = o_ingredients.Remove(o_ingredients.Length - 1);
+            }
+            else
+            {
+                o_ingredients = null;
+            }
+            if (o_searchrecipe.category.Count > 0)
+            {
+                o_category = o_category.Remove(o_category.Length - 1);
+            }
+            else
+            {
+                o_category = null;
+            }
+            List<RecipeDetail> _recipeList = _recipeRepo.GetRecipeSearchList(o_recipesearch, o_ingredients, o_category);
+
             return new OkObjectResult(_recipeList);
         }
     }

@@ -14,5 +14,6 @@ namespace cookhatAPI.Modal
         public string videourl { get; set; }
         public List<Ingredient> ingredient { get; set; }
         public List<Steps> steps { get; set; }
+        public string type{ get; set; }
     }
 }

@@ -35,9 +35,9 @@ namespace cookhatAPI.Controllers
             ChefDetail _recipe = _chefRepo.GetChefDetail(chefid);
             return new OkObjectResult(_recipe);
         }
+
         [HttpGet]
         [Route("GetChefList")]
-
         public ActionResult<List<ChefDetail>> GetRecipeList(string chefid)
         {
             string infid = chefid;
@@ -46,6 +46,19 @@ namespace cookhatAPI.Controllers
                 infid = "";
             }
             List<ChefDetail> _recipe = _chefRepo.GetChefList(infid);
+            return new OkObjectResult(_recipe);
+        }
+
+        [HttpGet]
+        [Route("GetChefSearchList")]
+        public ActionResult<List<ChefDetail>> GetChefSearch(string searchterm)
+        {
+            string osearchterm = searchterm;
+            if (osearchterm == null || osearchterm == "undefined")
+            {
+                osearchterm = "";
+            }
+            List<ChefDetail> _recipe = _chefRepo.GetChefSearchList(osearchterm);
             return new OkObjectResult(_recipe);
         }
     }

@@ -48,6 +48,7 @@ namespace cookhatAPI.DAL
                     command.Parameters.AddWithValue("steps", System.Text.Json.JsonSerializer.Serialize(recipe.steps));
                     command.Parameters.AddWithValue("ingredients", System.Text.Json.JsonSerializer.Serialize(recipe.ingredient));
                     command.Parameters.AddWithValue("duration", Convert.ToInt32(recipe.duration));
+                    command.Parameters.AddWithValue("type", Convert.ToInt32(recipe.type));
                     command.Parameters.AddWithValue("cuisine", recipe.cuisinetype);
                     SqlDataReader reader = command.ExecuteReader();
 
@@ -90,14 +91,19 @@ namespace cookhatAPI.DAL
                         recipeDetail.recipename = reader["recipename"] as string ?? null;
                         recipeDetail.recipename = reader["recipename"] as string ?? null;
                         string recipeingredients = reader["recipeingredients"] as string ?? null;
+                        
                         recipeDetail.recipeingredients = JsonConvert.DeserializeObject<List<Ingredient>>(recipeingredients);
                         
                         recipeDetail.recipevideosrc = reader["recipevideosrc"] as string ?? null;
+                        recipeDetail.recipeimage = reader["recipeimage"] as string ?? null;
                         string recipesteps = reader["recipesteps"] as string ?? null;                        
                         recipeDetail.recipesteps = JsonConvert.DeserializeObject<List<Steps>>(recipesteps);
                         recipeDetail.recipetime = reader["recipetime"] as int ? ??0;
                         recipeDetail.recipecuisine = reader["recipecuisine"] as string ?? null;
-                        //recipeDetail.recipefoodtime = reader["recipefoodtime"] as string ?? null;
+                        recipeDetail.recipetypeimgsrc = reader["recipetypeimgsrc"] as string ?? null;
+                        recipeDetail.recipetypename = reader["recipetypename"] as string ?? null;
+                        recipeDetail.recipeimage = reader["recipeimage"] as string ?? null;
+                        recipeDetail.recipetypeid = reader["recipetypeid"] as int? ?? 0;
                         recipeDetail.chefid = reader["chefid"] as string ?? null;
                         recipeDetail.chefname = reader["chefname"] as string ?? null;
                         recipeDetail.chefimgurl = reader["chefimgurl"] as string ?? null;
@@ -146,7 +152,9 @@ namespace cookhatAPI.DAL
                             //recipesteps = JsonConvert.DeserializeObject<List<Steps>>(recipesteps),
                             recipetime = reader["recipetime"] as int? ?? 0,
                             recipecuisine = reader["recipecuisine"] as string ?? null,
-                            chefid = reader["chefid"] as string ?? null,
+                            recipeimage = reader["recipeimage"] as string ?? null,
+                        recipetypeimgsrc = reader["recipetypeimgsrc"] as string ?? null,
+                            chefid = reader["chefid"] as string ?? null,                            
                             chefname = reader["chefname"] as string ?? null,
                             chefimgurl = reader["chefimgurl"] as string ?? null,
                             totalfollowers = reader["totalfollowers"] as int ? ?? 0,
@@ -163,7 +171,7 @@ namespace cookhatAPI.DAL
             }
         }
 
-        public List<RecipeDetail> GetRecipeSearchList(string? searchRecipe)
+        public List<RecipeDetail> GetRecipeSearchList(string recipesearch, string ingredient, string category)
         {
             var recipeList = new List<RecipeDetail>();
             try
@@ -177,7 +185,12 @@ namespace cookhatAPI.DAL
                     command.Connection = dbConnection as SqlConnection;
 
                     //Params
-                    command.Parameters.AddWithValue("search_recipe", searchRecipe);
+                    if(recipesearch!=null)
+                    command.Parameters.AddWithValue("text", recipesearch);
+                    if (category != null)
+                        command.Parameters.AddWithValue("category_filter", category);
+                    if (ingredient != null)
+                        command.Parameters.AddWithValue("ingredient_filter", ingredient);
 
                     SqlDataReader reader = command.ExecuteReader();
 
@@ -192,16 +205,12 @@ namespace cookhatAPI.DAL
                             //var recipecreateddate = reader.GetOrdinal("recipecreateddate");
                             recipeid = reader["recipeid"] as string ?? null,
                             recipename = reader["recipename"] as string ?? null,
-                            //recipeingredients = JsonConvert.DeserializeObject<List<Ingredient>>(recipeingredients),
-                            //recipevideosrc = reader["recipevideosrc"] as string ?? null,
-                            //recipesteps = JsonConvert.DeserializeObject<List<Steps>>(recipesteps),
                             recipetime = reader["recipetime"] as int? ?? 0,
-                            //recipecuisine = reader["recipecuisine"] as string ?? null,
-                            //chefid = reader["chefid"] as string ?? null,
-                            //chefname = reader["chefname"] as string ?? null,
-                            //chefimgurl = reader["chefimgurl"] as string ?? null,
-                            //totalfollowers = reader["totalfollowers"] as int? ?? 0,
-                            //recipecreateddate = (reader.IsDBNull(recipecreateddate) ? null : DateTime.Now),
+                            recipetypeimgsrc = reader["recipetypeimgsrc"] as string ?? null,
+                            recipeimage = reader["recipeimage"] as string ?? null,
+                        chefid = reader["chefid"] as string ?? null,
+                            chefname = reader["chefname"] as string ?? null,
+                            chefimgurl = reader["chefimgurl"] as string ?? null,
                         });
 
                     }

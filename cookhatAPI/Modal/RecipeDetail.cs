@@ -13,6 +13,10 @@ namespace cookhatAPI.Modal
         public int recipetime { get; set; }
         public string recipecuisine { get; set; }
         public string recipefoodtime { get; set; }
+        public string recipetypeimgsrc { get; set; }
+        public int recipetypeid { get; set; }
+        public string recipetypename { get; set; }
+        public string recipeimage{ get; set; }
         public List<Ingredient> recipeingredients { get; set; }
         public List<Steps> recipesteps { get; set; }
         public string recipevideosrc { get; set; }
@@ -24,5 +28,12 @@ namespace cookhatAPI.Modal
     public class RecipeChef : RecipeDetail
     {
         public int totalfollowers { get; set; }
+    }
+    public class RecipeFilter
+    {
+        public string text { get; set; }
+        public List<string> ingredients{ get; set; }
+
+        public List<Category> category { get; set; }
     }
 }
