@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/cookhatdev/databases/cookhat-dev",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:SQLConnectionString",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:SQLConnectionString-Prod",
+      "suggestion": "true",
+      "ignored": "true"
+    }
+  }
+}

@@ -56,14 +56,14 @@ namespace cookhatAPI.Controllers
         [HttpGet]
         [Route("GetRecipeList")]
 
-        public ActionResult<RecipeChef> GetRecipeList(string? inf_id)
+        public ActionResult<RecipeChef> GetRecipeList(string? chef_id)
         {
-            string infid = inf_id;
-            if (infid == null || infid=="")
+            string chefid = chef_id;
+            if (chefid == null || chefid=="")
             {
-                infid =null;
+                chefid =null;
             }
-            List<RecipeChef> _recipeList = _recipeRepo.GetRecipeList(infid);
+            List<RecipeChef> _recipeList = _recipeRepo.GetRecipeList(chefid);
             return new OkObjectResult(_recipeList);
         }
         [HttpPost]
@@ -75,7 +75,7 @@ namespace cookhatAPI.Controllers
 
             string o_ingredients = "";
             string o_category = "";
-            string o_recipesearch = "";
+            string o_search = "";
             if (o_searchrecipe.ingredients.Count > 0)
             {
                 o_searchrecipe.ingredients = o_searchrecipe.ingredients.Distinct().ToList();
@@ -98,7 +98,11 @@ namespace cookhatAPI.Controllers
             }
             if (o_searchrecipe.text.Length == 0)
             {
-                o_recipesearch = null;
+                o_search = null;
+            }
+            else
+            {
+                o_search = o_searchrecipe.text;
             }
             if (o_searchrecipe.ingredients.Count > 0)
             {
@@ -117,7 +121,7 @@ namespace cookhatAPI.Controllers
             {
                 o_category = null;
             }
-            List<RecipeDetail> _recipeList = _recipeRepo.GetRecipeSearchList(o_recipesearch, o_ingredients, o_category);
+            List<RecipeDetail> _recipeList = _recipeRepo.GetRecipeSearchList(o_search, o_ingredients, o_category);
 
             return new OkObjectResult(_recipeList);
         }

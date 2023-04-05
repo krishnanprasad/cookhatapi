@@ -42,7 +42,7 @@ namespace cookhatAPI.DAL
 
                     //Params
 
-                    command.Parameters.AddWithValue("influencer_id", recipe.influencerid);
+                    command.Parameters.AddWithValue("chef_id", recipe.influencerid);
                     command.Parameters.AddWithValue("recipename", recipe.recipename);
                     command.Parameters.AddWithValue("video", recipe.videourl);
                     command.Parameters.AddWithValue("steps", System.Text.Json.JsonSerializer.Serialize(recipe.steps));
@@ -90,14 +90,14 @@ namespace cookhatAPI.DAL
                         recipeDetail.recipeid = reader["recipeid"] as string ?? null;
                         recipeDetail.recipename = reader["recipename"] as string ?? null;
                         recipeDetail.recipename = reader["recipename"] as string ?? null;
-                        string recipeingredients = reader["recipeingredients"] as string ?? null;
-                        
+                        string recipeingredients = reader["recipeingredients"] as string ?? null;                        
                         recipeDetail.recipeingredients = JsonConvert.DeserializeObject<List<Ingredient>>(recipeingredients);
                         
                         recipeDetail.recipevideosrc = reader["recipevideosrc"] as string ?? null;
                         recipeDetail.recipeimage = reader["recipeimage"] as string ?? null;
                         string recipesteps = reader["recipesteps"] as string ?? null;                        
                         recipeDetail.recipesteps = JsonConvert.DeserializeObject<List<Steps>>(recipesteps);
+                        
                         recipeDetail.recipetime = reader["recipetime"] as int ? ??0;
                         recipeDetail.recipecuisine = reader["recipecuisine"] as string ?? null;
                         recipeDetail.recipetypeimgsrc = reader["recipetypeimgsrc"] as string ?? null;
@@ -118,7 +118,7 @@ namespace cookhatAPI.DAL
             }
         }
 
-        public List<RecipeChef> GetRecipeList(string? infid)
+        public List<RecipeChef> GetRecipeList(string? chefid)
         {
             var recipeList = new List<RecipeChef>();
             try
@@ -132,7 +132,7 @@ namespace cookhatAPI.DAL
                     command.Connection = dbConnection as SqlConnection;
 
                     //Params
-                    command.Parameters.AddWithValue("inf_id", infid);
+                    command.Parameters.AddWithValue("chef_id", chefid);
 
                     SqlDataReader reader = command.ExecuteReader();
 
@@ -186,7 +186,7 @@ namespace cookhatAPI.DAL
 
                     //Params
                     if(recipesearch!=null)
-                    command.Parameters.AddWithValue("text", recipesearch);
+                    command.Parameters.AddWithValue("@recipename_filter", recipesearch);
                     if (category != null)
                         command.Parameters.AddWithValue("category_filter", category);
                     if (ingredient != null)

@@ -28,7 +28,7 @@ namespace cookhatAPI.DAL
                 {
                     SqlCommand command = new SqlCommand();
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.CommandText = "influencercredentialsCREATE";
+                    command.CommandText = "chefcredentialsCREATE";
                     command.Connection = dbConnection as SqlConnection;
 
                     //Params
@@ -65,11 +65,11 @@ namespace cookhatAPI.DAL
                 {
                     SqlCommand command = new SqlCommand();
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.CommandText = "InfluencerDetailGET";
+                    command.CommandText = "ChefDetailGET";
                     command.Connection = dbConnection as SqlConnection;
 
                     //Params
-                    command.Parameters.AddWithValue("infid", chefid);
+                    command.Parameters.AddWithValue("chefid", chefid);
 
                     SqlDataReader reader = command.ExecuteReader();
 
@@ -105,11 +105,11 @@ namespace cookhatAPI.DAL
                 {
                     SqlCommand command = new SqlCommand();
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.CommandText = "InfluencerList";
+                    command.CommandText = "ChefList";
                     command.Connection = dbConnection as SqlConnection;
 
                     //Params
-                    command.Parameters.AddWithValue("inf_id", chefid);
+                    command.Parameters.AddWithValue("chef_id", chefid);
 
                     SqlDataReader reader = command.ExecuteReader();
 
@@ -150,7 +150,7 @@ namespace cookhatAPI.DAL
                 {
                     SqlCommand command = new SqlCommand();
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.CommandText = "InfluencerSearchList";
+                    command.CommandText = "ChefSearchList";
                     command.Connection = dbConnection as SqlConnection;
 
                     //Params

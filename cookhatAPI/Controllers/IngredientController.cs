@@ -20,7 +20,7 @@ namespace cookhatAPI.Controllers
         }
         [HttpGet]
         [Route("GetRecommendedIngredientList")]
-        public ActionResult<Ingredient> GetRecommendedIngredientList(string? inf_id)
+        public ActionResult<Ingredient> GetRecommendedIngredientList(string? chef_id)
         {
            
             List<Ingredient> _ingredientList = _ingredientRepo.GetRecommendedIngredientList();
