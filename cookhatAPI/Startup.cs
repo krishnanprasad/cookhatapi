@@ -31,19 +31,20 @@ namespace cookhatAPI
         {
             services.AddControllers();
             services.AddHttpClient();
-            string connectionstring = Configuration.GetConnectionString("SQLConnectionString");
+            //string connectionstring = Configuration.GetConnectionString("SQLConnectionString-Prod");
             services.AddDbContext<cookhatDBContext>(db =>
               db.UseSqlServer(Configuration.GetConnectionString("SQLConnectionString")));
             //services.AddTransient<IDbConnectionFactory>(db => new SqlConnectionFactory(
             //   Environment.GetEnvironmentVariable("SqlConnectionString")));
             services.AddTransient<IDbConnectionFactory>(db => new SqlConnectionFactory(
-               Configuration.GetConnectionString("SqlConnectionString")));
+               Configuration.GetConnectionString("SQLConnectionString")));
             services.AddTransient<IRecipe, RecipeDAL>();
             services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
             {
                 builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
             }));
             services.AddTransient<IChef, ChefDAL>();
+            services.AddTransient<IIngredient, IngredientDAL>();
             services.AddControllers().AddNewtonsoftJson();
         }
 

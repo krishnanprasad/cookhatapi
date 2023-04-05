@@ -7,9 +7,9 @@ namespace cookhatAPI.Modal
 {
     public class Ingredient
     {
-        public string IngredientID { get; set; }
-        public string Name { get; set; }
-        public string Quantity { get; set; }
-        public string ImageSource { get; set; }
+        public string ingredientID { get; set; }
+        public string ingredientName { get; set; }
+        public string ingredientQuantity { get; set; }
+        public string ingredientImage { get; set; }
     }
 }
