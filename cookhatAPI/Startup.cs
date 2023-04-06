@@ -42,6 +42,7 @@ namespace cookhatAPI
             services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
             {
                 builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+                builder.WithOrigins("https://davaras.azurewebsites.net").AllowAnyMethod().AllowAnyHeader();
             }));
             services.AddTransient<IChef, ChefDAL>();
             services.AddTransient<IIngredient, IngredientDAL>();
