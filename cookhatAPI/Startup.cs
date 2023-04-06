@@ -46,6 +46,7 @@ namespace cookhatAPI
             }));
             services.AddTransient<IChef, ChefDAL>();
             services.AddTransient<IIngredient, IngredientDAL>();
+            services.AddTransient<IBlog, BlogDAL>();
             services.AddControllers().AddNewtonsoftJson();
         }
 
