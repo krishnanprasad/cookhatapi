@@ -125,5 +125,14 @@ namespace cookhatAPI.Controllers
 
             return new OkObjectResult(_recipeList);
         }
+        [HttpGet]
+        [Route("GetTrendingRecipeList")]
+
+        public ActionResult<RecipeChef> GetTrendingRecipeList()
+        {
+            
+            List<RecipeChef> _recipeList = _recipeRepo.GetTrendingRecipeList();
+            return new OkObjectResult(_recipeList);
+        }
     }
 }
