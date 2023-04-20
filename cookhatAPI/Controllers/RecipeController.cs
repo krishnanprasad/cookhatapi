@@ -76,6 +76,7 @@ namespace cookhatAPI.Controllers
             string o_ingredients = "";
             string o_category = "";
             string o_search = "";
+            string o_cuisinetype = "";
             if (o_searchrecipe.ingredients.Count > 0)
             {
                 o_searchrecipe.ingredients = o_searchrecipe.ingredients.Distinct().ToList();
@@ -94,6 +95,14 @@ namespace cookhatAPI.Controllers
                         o_category = o_category+singlecategory.name + ",";
                     }
 
+                }
+            }
+            if (o_searchrecipe.cuisinetype.Count > 0)
+            {
+                o_searchrecipe.cuisinetype = o_searchrecipe.cuisinetype.Distinct().ToList();
+                foreach (var single_cuisinetype in o_searchrecipe.cuisinetype)
+                {
+                    o_cuisinetype = o_cuisinetype + single_cuisinetype + ",";
                 }
             }
             if (o_searchrecipe.text.Length == 0)
@@ -121,7 +130,16 @@ namespace cookhatAPI.Controllers
             {
                 o_category = null;
             }
-            List<RecipeDetail> _recipeList = _recipeRepo.GetRecipeSearchList(o_search, o_ingredients, o_category);
+            if (o_searchrecipe.cuisinetype.Count > 0)
+            {
+
+                o_cuisinetype = o_cuisinetype.Remove(o_cuisinetype.Length - 1);
+            }
+            else
+            {
+                o_cuisinetype = null;
+            }
+            List<RecipeDetail> _recipeList = _recipeRepo.GetRecipeSearchList(o_search, o_ingredients, o_category,o_cuisinetype);
 
             return new OkObjectResult(_recipeList);
         }
@@ -133,6 +151,25 @@ namespace cookhatAPI.Controllers
             
             List<RecipeChef> _recipeList = _recipeRepo.GetTrendingRecipeList();
             return new OkObjectResult(_recipeList);
+        }
+        [HttpGet]
+        [Route("GetSimilarRecipeList")]
+
+        public ActionResult<RecipeChef> GetSimilarRecipeList()
+        {
+
+            List<RecipeChef> _recipeList = _recipeRepo.GetSimilarRecipeList();
+            return new OkObjectResult(_recipeList);
+        }
+
+        [HttpGet]
+        [Route("GetCuisineSearchList")]
+
+        public ActionResult  GetCuisineSearchList()
+        {
+
+            List<string> _cuisineList = _recipeRepo.GetCuisineSearchList();
+            return new OkObjectResult(_cuisineList);
         }
     }
 }

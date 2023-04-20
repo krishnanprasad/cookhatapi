@@ -24,10 +24,12 @@ namespace cookhatAPI.Modal
         public string chefname { get; set; }
         public string chefimgurl { get; set; }
         public DateTimeOffset? recipecreateddate { get; set; }
+        public int totalrecipes { get; set; }
     }
     public class RecipeChef : RecipeDetail
     {
         public int totalfollowers { get; set; }
+        public int totalrecipes { get; set; }
     }
     public class RecipeFilter
     {
@@ -35,5 +37,6 @@ namespace cookhatAPI.Modal
         public List<string> ingredients{ get; set; }
 
         public List<Category> category { get; set; }
+        public List<string> cuisinetype { get; set; }
     }
 }

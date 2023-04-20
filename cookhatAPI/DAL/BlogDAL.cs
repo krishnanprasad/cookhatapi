@@ -105,5 +105,47 @@ namespace cookhatAPI.DAL
             }
             
         }
+        public List<Blogs> GetTrendingBlogList()
+        {
+            //blogListGET
+            var blogList = new List<Blogs>();
+            try
+            {
+
+                using (DbConnection dbConnection = _sqlConnection.CreateConnection())
+                {
+                    SqlCommand command = new SqlCommand();
+                    command.CommandType = System.Data.CommandType.StoredProcedure; 
+                    command.CommandText = "blogtrendingListGET";
+                    command.Connection = dbConnection as SqlConnection;
+
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        var updateddate = reader.GetOrdinal("updateddate");
+                        blogList.Add(new Blogs()
+                        {
+                            blogtitleimage = reader["blogtitleimage"] as string ?? null,
+                            author = reader["author"] as string ?? null,
+                            content = reader["content"] as string ?? null,
+                            blogid = reader["blogid"] as string ?? null,
+                            metatags = reader["metatags"] as string ?? null,
+                            blogtitle = reader["blogtitle"] as string ?? null,
+                            id = reader["id"] as int? ?? 0,
+                            updateddate = reader.IsDBNull(updateddate) ? DateTime.Now : DateTime.Now
+                        });
+
+                    }
+                }
+                return blogList;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error creating new Case:: " + e.Message, e.InnerException);
+            }
+
+        }
     }
 }

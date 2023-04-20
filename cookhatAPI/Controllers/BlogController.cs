@@ -29,12 +29,20 @@ namespace cookhatAPI.Controllers
             Blogs _blog = _blogRepo.GetBlogDetail(blogid);
             return new OkObjectResult(_blog);
         }
+
         [HttpGet]
         [Route("GetBlogList")]
-
         public ActionResult<Blogs> GetBlogList()
         {
             List<Blogs> _blogList = _blogRepo.GetRecommendedBlogList();
+            return new OkObjectResult(_blogList);
+        }
+
+        [HttpGet]
+        [Route("GetTrendingBlogList")]
+        public ActionResult<Blogs> GetTrendingBlogList()
+        {
+            List<Blogs> _blogList = _blogRepo.GetTrendingBlogList();
             return new OkObjectResult(_blogList);
         }
     }

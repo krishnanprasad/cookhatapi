@@ -10,5 +10,6 @@ namespace cookhatAPI.Interface
     {
         List<Blogs> GetRecommendedBlogList();
         Blogs GetBlogDetail (string? blogid);
+        List<Blogs> GetTrendingBlogList();
     }
 }

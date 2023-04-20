@@ -107,6 +107,7 @@ namespace cookhatAPI.DAL
                         recipeDetail.chefid = reader["chefid"] as string ?? null;
                         recipeDetail.chefname = reader["chefname"] as string ?? null;
                         recipeDetail.chefimgurl = reader["chefimgurl"] as string ?? null;
+                        recipeDetail.totalrecipes = reader["totalrecipes"] as int? ?? 0;
                         recipeDetail.recipecreateddate = (reader.IsDBNull(recipecreateddate) ? null : DateTime.Now);
                     }
                     return recipeDetail;
@@ -171,7 +172,7 @@ namespace cookhatAPI.DAL
             }
         }
 
-        public List<RecipeDetail> GetRecipeSearchList(string recipesearch, string ingredient, string category)
+        public List<RecipeDetail> GetRecipeSearchList(string recipesearch, string ingredient, string category,string cuisinetype)
         {
             var recipeList = new List<RecipeDetail>();
             try
@@ -191,6 +192,8 @@ namespace cookhatAPI.DAL
                         command.Parameters.AddWithValue("category_filter", category);
                     if (ingredient != null)
                         command.Parameters.AddWithValue("ingredient_filter", ingredient);
+                    if (cuisinetype != null)
+                        command.Parameters.AddWithValue("cuisinetype_filter", cuisinetype);
 
                     SqlDataReader reader = command.ExecuteReader();
 
@@ -260,6 +263,7 @@ namespace cookhatAPI.DAL
                             chefname = reader["chefname"] as string ?? null,
                             chefimgurl = reader["chefimgurl"] as string ?? null,
                             totalfollowers = reader["totalfollowers"] as int? ?? 0,
+                            totalrecipes= reader["totalrecipes"] as int? ?? 0,
                             recipecreateddate = (reader.IsDBNull(recipecreateddate) ? null : DateTime.Now),
                         });
 
@@ -270,6 +274,86 @@ namespace cookhatAPI.DAL
             catch (Exception e)
             {
                 throw new Exception("Error creating new Case:: " + e.Message, e.InnerException);
+            }
+        }
+        public List<RecipeChef> GetSimilarRecipeList()
+        {
+            var recipeList = new List<RecipeChef>();
+            try
+            {
+
+                using (DbConnection dbConnection = _sqlConnection.CreateConnection())
+                {
+                    SqlCommand command = new SqlCommand();
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = "recipeSmilarList";
+                    command.Connection = dbConnection as SqlConnection;
+
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        //string recipesteps = reader["recipesteps"] as string ?? null;
+                        // string recipeingredients = reader["recipeingredients"] as string ?? null;
+                        //List<Ingredient> _recipeingredients = JsonConvert.DeserializeObject<List<Ingredient>>(recipeingredients);
+                        var recipecreateddate = reader.GetOrdinal("recipecreateddate");
+                        recipeList.Add(new RecipeChef()
+                        {
+                            //var recipecreateddate = reader.GetOrdinal("recipecreateddate");
+                            recipeid = reader["recipeid"] as string ?? null,
+                            recipename = reader["recipename"] as string ?? null,
+                            //recipeingredients = JsonConvert.DeserializeObject<List<Ingredient>>(recipeingredients),
+                            recipevideosrc = reader["recipevideosrc"] as string ?? null,
+                            //recipesteps = JsonConvert.DeserializeObject<List<Steps>>(recipesteps),
+                            recipetime = reader["recipetime"] as int? ?? 0,
+                            recipecuisine = reader["recipecuisine"] as string ?? null,
+                            recipeimage = reader["recipeimage"] as string ?? null,
+                            recipetypeimgsrc = reader["recipetypeimgsrc"] as string ?? null,
+                            chefid = reader["chefid"] as string ?? null,
+                            chefname = reader["chefname"] as string ?? null,
+                            chefimgurl = reader["chefimgurl"] as string ?? null,
+                            totalfollowers = reader["totalfollowers"] as int? ?? 0,
+                            totalrecipes = reader["totalrecipes"] as int? ?? 0,
+                            recipecreateddate = (reader.IsDBNull(recipecreateddate) ? null : DateTime.Now),
+                        });
+
+                    }
+                    return recipeList;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error creating new Case:: " + e.Message, e.InnerException);
+            }
+        }
+        public List<String> GetCuisineSearchList()
+        {
+            var recipeList = new List<string>();
+            try
+            {
+
+                using (DbConnection dbConnection = _sqlConnection.CreateConnection())
+                {
+                    SqlCommand command = new SqlCommand();
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = "CuisineForSearchlistget";
+                    command.Connection = dbConnection as SqlConnection;
+
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        recipeList.Add(reader["cuisine"] as string ?? null);
+
+                    }
+                    return recipeList;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error getting GetCuisineSearchList:: " + e.Message, e.InnerException);
             }
         }
     }
